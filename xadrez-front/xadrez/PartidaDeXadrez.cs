@@ -15,6 +15,7 @@ namespace xadrez
         private HashSet<Peca> pecas;
         private HashSet<Peca> capturadas;
         public bool xeque { get; private set; }
+        private Peca pecaVulneravelEnPassant;
 
         public PartidaDeXadrez()
         {
@@ -26,6 +27,7 @@ namespace xadrez
             colocarPecas();
             terminada = false;
             xeque = false;
+            pecaVulneravelEnPassant = null;
         }
 
         public Peca executaMovimento(Posicao origem, Posicao destino)
@@ -110,7 +112,18 @@ namespace xadrez
             {
                 turno++;
                 mudaJogador();
-            }            
+            }
+
+            //en Passant
+            Peca p = tab.peca(destino);
+            if (p is Peao && (destino.linha == origem.linha - 2 || destino.linha == origem.linha + 2)) {
+                pecaVulneravelEnPassant = p;
+            }
+            else
+            {
+                pecaVulneravelEnPassant = null;
+            }
+
         }
 
         public void validarPosicaoDeOrigem(Posicao pos)
