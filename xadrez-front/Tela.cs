@@ -99,10 +99,17 @@ namespace xadrez_front
 
         public static PosicaoXadrez lerPosicaoXadrez()
         {
-            string s = Console.ReadLine();
-            char coluna = s[0];
-            int linha = int.Parse(s[1] + "");
-            return new PosicaoXadrez(coluna, linha);
+            try
+            {
+                string s = Console.ReadLine();
+                char coluna = s[0];
+                int linha = int.Parse(s[1] + "");
+                return new PosicaoXadrez(coluna, linha);
+            }
+            catch (Exception)
+            {
+                throw new TelaException("Entrada não reconhecida!");
+            }          
         }
 
         public static void imprimirPeca(Peca peca)

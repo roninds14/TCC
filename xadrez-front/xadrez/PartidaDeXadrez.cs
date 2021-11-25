@@ -143,7 +143,7 @@ namespace xadrez
             // promocao
             if(p is Peao)
             {
-                if((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Preta && destino.linha == 7){
+                if((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Preta && destino.linha == 7)){
                     p = p.tab.retirarPeca(destino);
                     pecas.Remove(p);
                     Peca dama = new Dama(tab, p.cor);
