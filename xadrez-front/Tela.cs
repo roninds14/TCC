@@ -8,8 +8,34 @@ namespace xadrez_front
 {
     class Tela
     {
+        public static void imprimirMenu()
+        {
+            Console.WriteLine("Bem vindo a Partida de Xadrez!\n\n");
+
+            Console.WriteLine("Digite ajuda para o exibir comandos possíveis!\nDigite sair para encerrar o jogo!\n");
+
+            Console.Write("Digite o número de jogadores para começar: ");
+
+            try
+            {
+                int jogadores = int.Parse(Console.ReadLine());
+
+                if (jogadores < 0 || jogadores > 2)
+                    throw new TelaException("Número de joagdores deve ser entre 0 (zero) e 3 (três)!");
+            }
+            catch (TelaException e)
+            {
+                throw new TelaException(e.Message);
+            }
+            catch (Exception)
+            {
+                throw new TelaException("Não foi possível capturar o número de jogadores!");
+            }
+        }
         public static void imprimirPartida(PartidaDeXadrez partida)
         {
+            Tela.imprimirMenu();
+
             Tela.imprimirTabuleiro(partida.tab);
             Console.WriteLine();
             imprimirPecasCapturadas(partida);
