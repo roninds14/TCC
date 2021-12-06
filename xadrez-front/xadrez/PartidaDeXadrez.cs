@@ -11,6 +11,8 @@ namespace xadrez
         public Tabuleiro tab { get; private set; }
         public int turno { get; private set; }
         public Cor jogadorAtual { get; private set; }
+        public bool iniciada { get; private set; }
+        public Jogador[] jogadores { get; private set; }
         public bool terminada { get; private set; }
         private HashSet<Peca> pecas;
         private HashSet<Peca> capturadas;
@@ -28,7 +30,33 @@ namespace xadrez
             terminada = false;
             xeque = false;
             pecaVulneravelEnPassant = null;
+            iniciada = false;
+            jogadores = new Jogador[2];
         }
+
+        public void iniciaPartida()
+        {
+            iniciada = true;
+        }
+
+        public void setJogadores(int qtd)
+        {
+            jogadores[0] = new Jogador(Convert.ToBoolean(qtd), Cor.Branca);
+            jogadores[1] = new Jogador(Convert.ToBoolean(qtd), Cor.Preta);
+            
+        }
+
+        public void setJogadores(Cor cor)
+        {
+            jogadores[0] = new Jogador(true, cor == Cor.Branca ? Cor.Branca : Cor.Preta);
+            jogadores[1] = new Jogador(false, cor != Cor.Branca ? Cor.Branca : Cor.Preta);
+        }
+
+        public bool tipoJogador(Cor jogador)
+        {
+            return jogadores[0].cor == jogador ? jogadores[0].tipo : jogadores[1].tipo;
+        }
+
 
         public Peca executaMovimento(Posicao origem, Posicao destino)
         {

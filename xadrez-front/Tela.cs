@@ -8,11 +8,11 @@ namespace xadrez_front
 {
     class Tela
     {
-        public static void imprimirMenu()
+        public static void imprimirMenu(PartidaDeXadrez partida)
         {
             Console.WriteLine("Bem vindo a Partida de Xadrez!\n\n");
 
-            Console.WriteLine("Digite ajuda para o exibir comandos possíveis!\nDigite sair para encerrar o jogo!\n");
+            Console.WriteLine("Digite 'ajuda' para o exibir comandos possíveis!\nDigite 'sair' para encerrar o jogo!\n");
 
             Console.Write("Digite o número de jogadores para começar: ");
 
@@ -21,7 +21,25 @@ namespace xadrez_front
                 int jogadores = int.Parse(Console.ReadLine());
 
                 if (jogadores < 0 || jogadores > 2)
-                    throw new TelaException("Número de joagdores deve ser entre 0 (zero) e 3 (três)!");
+                    throw new TelaException("Número de jogadores deve ser entre 0 (zero) e 3 (três)!");
+
+                if(jogadores == 1)
+                {
+                    Console.Write("Digite sua cor: ");
+                    string corDigitada  = (Console.ReadLine()).Trim();
+
+                    Cor cor = corDigitada[0] == 'B' ? Cor.Branca: Cor.Preta;
+
+                    partida.setJogadores(cor);
+                }
+                else
+                {
+                    partida.setJogadores(jogadores);
+                }
+
+                partida.iniciaPartida();
+
+                Console.Clear();
             }
             catch (TelaException e)
             {
@@ -32,9 +50,11 @@ namespace xadrez_front
                 throw new TelaException("Não foi possível capturar o número de jogadores!");
             }
         }
+
         public static void imprimirPartida(PartidaDeXadrez partida)
         {
-            Tela.imprimirMenu();
+            if(!partida.iniciada)
+                Tela.imprimirMenu(partida);
 
             Tela.imprimirTabuleiro(partida.tab);
             Console.WriteLine();
@@ -44,26 +64,34 @@ namespace xadrez_front
             if (!partida.terminada)
             {
                 Console.WriteLine("Turno: " + partida.turno);
-                Console.WriteLine("Aguardando jogada da: " + partida.jogadorAtual);
-                if (partida.xeque)
-                    Console.WriteLine("XEQUE!");
 
-                Console.WriteLine();
+                if (partida.tipoJogador(partida.jogadorAtual))
+                {
+                    Console.WriteLine("Aguardando jogada da: " + partida.jogadorAtual);
+                    if (partida.xeque)
+                        Console.WriteLine("XEQUE!");
 
-                Console.Write("Origem: ");
-                Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
-                partida.validarPosicaoDeOrigem(origem);
+                    Console.WriteLine();
 
-                bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
+                    Console.Write("Origem: ");
+                    Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                    partida.validarPosicaoDeOrigem(origem);
 
-                Console.Clear();
-                Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                    bool[,] posicoesPossiveis = partida.tab.peca(origem).movimentosPossiveis();
 
-                Console.Write("Destino: ");
-                Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
-                partida.validarPosicaoDeDestino(origem, destino);
+                    Console.Clear();
+                    Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
 
-                partida.realizaJogada(origem, destino);
+                    Console.Write("Destino: ");
+                    Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+                    partida.validarPosicaoDeDestino(origem, destino);
+
+                    partida.realizaJogada(origem, destino);
+                }
+                else
+                {
+                    Console.WriteLine("Aguarde a jogada da: " + partida.jogadorAtual);
+                }
             }
             else
             {
