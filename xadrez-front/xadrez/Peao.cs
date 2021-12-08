@@ -7,6 +7,7 @@ namespace xadrez
         private PartidaDeXadrez partida;
         public Peao(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor) {
             this.partida = partida;
+            peso = 0;
         }
 
         public override string ToString()

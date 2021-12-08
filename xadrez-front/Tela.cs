@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using tabuleiro;
 using xadrez;
-
+using maquina;
 
 namespace xadrez_front
 {
@@ -91,6 +91,8 @@ namespace xadrez_front
                 else
                 {
                     Console.WriteLine("Aguarde a jogada da: " + partida.jogadorAtual);
+
+                    RealizaJogada jogada = new RealizaJogada(partida, partida.jogadorAtual);
                 }
             }
             else

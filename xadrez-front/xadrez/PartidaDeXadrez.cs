@@ -57,7 +57,6 @@ namespace xadrez
             return jogadores[0].cor == jogador ? jogadores[0].tipo : jogadores[1].tipo;
         }
 
-
         public Peca executaMovimento(Posicao origem, Posicao destino)
         {
             Peca p = tab.retirarPeca(origem);
@@ -260,7 +259,7 @@ namespace xadrez
             return aux;
         }
 
-        private Cor adversaria(Cor cor)
+        public Cor adversaria(Cor cor)
         {
             return cor == Cor.Branca ? Cor.Preta : Cor.Branca;
         }

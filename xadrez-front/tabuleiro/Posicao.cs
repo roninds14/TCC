@@ -25,5 +25,10 @@ namespace tabuleiro
         {
             return this.linha + ", " + this.coluna;
         }
+
+        public static bool comparaPosicao(Posicao p1, Posicao p2)
+        {
+            return p1.linha == p2.linha && p1.coluna == p2.coluna;
+        }
     }
 }

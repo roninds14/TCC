@@ -6,4 +6,28 @@
     <RootNamespace>xadrez_front</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="NovaPasta1\**" />
+    <Compile Remove="NovaPasta2\**" />
+    <Compile Remove="NovaPasta\**" />
+    <Compile Remove="tabuleiro\NovaPasta1\**" />
+    <Compile Remove="tabuleiro\NovaPasta2\**" />
+    <Compile Remove="tabuleiro\NovaPasta\**" />
+    <Compile Remove="xadrez\NovaPasta\**" />
+    <EmbeddedResource Remove="NovaPasta1\**" />
+    <EmbeddedResource Remove="NovaPasta2\**" />
+    <EmbeddedResource Remove="NovaPasta\**" />
+    <EmbeddedResource Remove="tabuleiro\NovaPasta1\**" />
+    <EmbeddedResource Remove="tabuleiro\NovaPasta2\**" />
+    <EmbeddedResource Remove="tabuleiro\NovaPasta\**" />
+    <EmbeddedResource Remove="xadrez\NovaPasta\**" />
+    <None Remove="NovaPasta1\**" />
+    <None Remove="NovaPasta2\**" />
+    <None Remove="NovaPasta\**" />
+    <None Remove="tabuleiro\NovaPasta1\**" />
+    <None Remove="tabuleiro\NovaPasta2\**" />
+    <None Remove="tabuleiro\NovaPasta\**" />
+    <None Remove="xadrez\NovaPasta\**" />
+  </ItemGroup>
+
 </Project>
