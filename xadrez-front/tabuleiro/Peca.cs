@@ -33,6 +33,11 @@ namespace tabuleiro
             qteMovimentos--;
         }
 
+        public int getPeso()
+        {
+            return peso;
+        }
+
         public bool existeMovimentosPossiveis()
         {
             bool[,] mat = movimentosPossiveis();

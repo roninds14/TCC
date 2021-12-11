@@ -16,7 +16,9 @@ namespace maquina
         {
             this.partida = partida;
             this.jogadorMax = jogador;
-            this.jogadorMin = partida.adversaria(jogador);           
+            this.jogadorMin = partida.adversaria(jogador);
+            movimentosMax = new HashSet<PesoMovimento>();
+            movimentosMin = new HashSet<PesoMovimento>();
 
             realizaMovimento();
                 
@@ -24,36 +26,44 @@ namespace maquina
 
         private void realizaMovimento()
         {
-            pesosMovimentosMax();
+            pesosMovimentos(jogadorMax);
+            pesosMovimentos(jogadorMin);
         }
 
-        private void pesosMovimentosMax()
+        private void pesosMovimentos(Cor cor)
         {
-            foreach (Peca x in partida.pecasEmJogo(jogadorMax))
+            foreach (Peca x in partida.pecasEmJogo(cor))
             {
-                bool[,] movimentosPossiveis = x.movimentosPossiveis();
+                int[,] pesos = new int[partida.tab.linhas, partida.tab.colunas];
 
                 PesoMovimento pesoMovimento = new PesoMovimento(x, partida.tab.linhas, partida.tab.colunas);
 
                 if (x.existeMovimentosPossiveis())
                 {
-                    pesoMovimento.setMovimentos(x.movimentosPossiveis());
-
                     for(int i = 0; i < partida.tab.linhas; i++ )
                     {
                         for(int j = 0; j <partida.tab.colunas; j++)
                         {
-                            if (pesoMovimento.movimentos[i, j])
+                            if (x.movimentoPossivel(new Posicao(i,j)))
                             {
                                 int valor = 0;
 
                                 if(partida.tab.peca(i, j) != null) valor++;
-                                if(estaProtegida(jogadorMax, x.posicao, new Posicao(i, j))) valor++;
+                                if(estaProtegida(cor, x.posicao, new Posicao(i, j))) valor++;
+                                estaAmeacada(partida.adversaria(cor), new Posicao(i, j), ref valor);
 
+                                pesos[i, j] = valor;
                             }
                         }
                     }
                 }
+                pesoMovimento.setMovimentos(x.movimentosPossiveis(), pesos);
+
+
+                if (jogadorMax == cor)
+                    movimentosMax.Add(pesoMovimento);
+                else
+                    movimentosMin.Add(pesoMovimento);
             }
         }
 
@@ -61,7 +71,7 @@ namespace maquina
         {
             foreach (Peca x in partida.pecasEmJogo(cor))
             {
-                if (Posicao.comparaPosicao(x.posicao, peca))
+                if (!Posicao.comparaPosicao(x.posicao, peca))
                 {
                     bool[,] R = x.movimentosPossiveis();
                     if (R[destino.linha, destino.coluna]) return true;
@@ -70,7 +80,29 @@ namespace maquina
                 return false;
         }
 
-        private void pesosMovimentosMin(PartidaDeXadrez partida) { }
+        private void estaAmeacada(Cor cor, Posicao destino, ref int valor)
+        {
+            foreach(Peca x in partida.pecasEmJogo(cor)){
+                bool[,] movimentosPossiveis = x.movimentosPossiveis();
+
+                if( x.existeMovimentosPossiveis() )
+                    for (int i = 0; i < partida.tab.linhas; i++)
+                    {
+                        for (int j = 0; j < partida.tab.colunas; j++)
+                        {
+                            if (movimentosPossiveis[i, j] && Posicao.comparaPosicao(destino, new Posicao(i,j)))
+                            {
+                                valor--;
+                                valor += x.getPeso();
+                                if(estaProtegida(cor, x.posicao, destino))
+                                {
+                                    valor--;
+                                }
+                            }
+                        }
+                    }
+            }
+        }
     }
 }
 

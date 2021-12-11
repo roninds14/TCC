@@ -4,7 +4,9 @@ namespace xadrez
 {
     class Cavalo : Peca
     {
-        public Cavalo(Tabuleiro tab, Cor cor) : base(tab, cor) { }
+        public Cavalo(Tabuleiro tab, Cor cor) : base(tab, cor) {
+            peso = -1;
+        }
 
         public override string ToString()
         {
