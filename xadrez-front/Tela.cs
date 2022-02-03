@@ -93,6 +93,8 @@ namespace xadrez_front
                     Console.WriteLine("Aguarde a jogada da: " + partida.jogadorAtual);
 
                     RealizaJogada jogada = new RealizaJogada(partida, partida.jogadorAtual);
+
+                    partida.realizaJogada(jogada.origem, jogada.destino);
                 }
             }
             else

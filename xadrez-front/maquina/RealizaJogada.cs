@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using tabuleiro;
 using xadrez;
 
@@ -11,6 +12,8 @@ namespace maquina
         private Cor jogadorMin;
         private HashSet<PesoMovimento> movimentosMax;
         private HashSet<PesoMovimento> movimentosMin;
+        public Posicao origem { get; private set; }
+        public Posicao destino { get; private set; }
 
         public RealizaJogada(PartidaDeXadrez partida, Cor jogador)
         {
@@ -28,6 +31,11 @@ namespace maquina
         {
             pesosMovimentos(jogadorMax);
             pesosMovimentos(jogadorMin);
+
+            Posicao[] posicoes = MinMax();
+
+            this.origem = posicoes[0];
+            this.destino = posicoes[1];
         }
 
         private void pesosMovimentos(Cor cor)
@@ -102,6 +110,45 @@ namespace maquina
                         }
                     }
             }
+        }
+
+        private Posicao[] MinMax()
+        {
+            return MaxMove( this.partida, 0 );
+        }
+
+        private Posicao[] MaxMove( PartidaDeXadrez partida, int profundidade )
+        {
+            if (profundidade == 5 || partida.terminada)
+            {
+                return EvalGameState(partida);
+            }
+            else
+            {
+                int melhorMovimento = int.MaxValue;
+
+                PartidaDeXadrez[] movimentos = GerarMovimentos(movimentosMax);
+            }
+
+            return null;
+        }
+
+        private PartidaDeXadrez[] GerarMovimentos(HashSet<PesoMovimento> movimentos)
+        {
+            PartidaDeXadrez[] partidas = null;
+
+            foreach(PesoMovimento movimento in movimentos)
+            {
+
+            }
+
+            return null;
+        }
+
+
+        private Posicao[] EvalGameState(PartidaDeXadrez partida)
+        {
+            return null;
         }
     }
 }
