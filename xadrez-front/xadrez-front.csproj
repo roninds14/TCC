@@ -30,4 +30,8 @@
     <None Remove="xadrez\NovaPasta\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="maquina\Class1.cs" />
+  </ItemGroup>
+
 </Project>

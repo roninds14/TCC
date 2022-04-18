@@ -47,7 +47,6 @@ namespace tabuleiro
                     if (mat[i, j]) return true;
 
             return false;
-
         }
 
         public bool movimentoPossivel(Posicao pos)
