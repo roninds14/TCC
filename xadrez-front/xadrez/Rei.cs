@@ -12,7 +12,7 @@ namespace xadrez
 
         public Rei(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor) {
             this.partida = partida;
-            peso = int.MinValue;
+            peso = int.MinValue + 1;
         }        
 
         public override string ToString()

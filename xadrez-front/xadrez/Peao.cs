@@ -32,8 +32,9 @@ namespace xadrez
             bool[,] mat = new bool[tab.linhas, tab.colunas];
 
             Posicao pos = new Posicao(0, 0);
+            Posicao posAnt = new Posicao(0, 0);
 
-            if(cor == Cor.Branca)
+            if (cor == Cor.Branca)
             {
                 pos.definirValores(posicao.linha - 1, posicao.coluna);
                 if (tab.posicaoValida(pos) && podeMover(pos)) mat[pos.linha, pos.coluna] = true;
@@ -47,13 +48,8 @@ namespace xadrez
                 if (qteMovimentos == 0)
                 {
                     pos.definirValores(posicao.linha - 2, posicao.coluna);
-                    if (tab.posicaoValida(pos) && podeMover(pos)) mat[pos.linha, pos.coluna] = true;
-
-                    pos.definirValores(posicao.linha - 2, posicao.coluna - 1);
-                    if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
-
-                    pos.definirValores(posicao.linha - 2, posicao.coluna + 1);
-                    if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
+                    posAnt.definirValores(posicao.linha - 1, posicao.coluna);
+                    if (tab.posicaoValida(pos) && podeMover(pos) && podeMover(posAnt)) mat[pos.linha, pos.coluna] = true;                    
                 }
 
                 //en Passant
@@ -74,7 +70,7 @@ namespace xadrez
             }
             else
             {
-                pos.definirValores(posicao.linha + 1, posicao.coluna);
+                pos.definirValores(posicao.linha + 1, posicao.coluna);                
                 if (tab.posicaoValida(pos) && podeMover(pos)) mat[pos.linha, pos.coluna] = true;
 
                 pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
@@ -86,13 +82,8 @@ namespace xadrez
                 if (qteMovimentos == 0)
                 {
                     pos.definirValores(posicao.linha + 2, posicao.coluna);
-                    if (tab.posicaoValida(pos) && podeMover(pos)) mat[pos.linha, pos.coluna] = true;
-
-                    pos.definirValores(posicao.linha + 2, posicao.coluna - 1);
-                    if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
-
-                    pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
-                    if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
+                    posAnt.definirValores(posicao.linha + 1, posicao.coluna);
+                    if (tab.posicaoValida(pos) && podeMover(pos) && podeMover(posAnt)) mat[pos.linha, pos.coluna] = true;                    
                 }
 
                 //en Passant

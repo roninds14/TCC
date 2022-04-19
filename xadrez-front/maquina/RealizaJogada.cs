@@ -10,8 +10,6 @@ namespace maquina
         private PartidaDeXadrez partida;
         private Cor jogadorMax;
         private Cor jogadorMin;
-        private HashSet<PesoMovimento> movimentosMax;
-        private HashSet<PesoMovimento> movimentosMin;
         public Posicao origem { get; private set; }
         public Posicao destino { get; private set; }
 
@@ -20,11 +18,8 @@ namespace maquina
             this.partida = partida;
             this.jogadorMax = jogador;
             this.jogadorMin = partida.adversaria(jogador);
-            movimentosMax = new HashSet<PesoMovimento>();
-            movimentosMin = new HashSet<PesoMovimento>();
-
-            realizaMovimento();
-                
+        
+            realizaMovimento();                
         }
 
         private void realizaMovimento()
@@ -33,43 +28,7 @@ namespace maquina
 
             this.origem = posicoes[0];
             this.destino = posicoes[1];
-        }
-
-        private void pesosMovimentos(PartidaDeXadrez partida, Cor cor)
-        {
-            foreach (Peca x in partida.pecasEmJogo(cor))
-            {
-                int[,] pesos = new int[partida.tab.linhas, partida.tab.colunas];
-
-                PesoMovimento pesoMovimento = new PesoMovimento(x, partida.tab.linhas, partida.tab.colunas);
-
-                if (x.existeMovimentosPossiveis())
-                {
-                    for(int i = 0; i < partida.tab.linhas; i++ )
-                    {
-                        for(int j = 0; j <partida.tab.colunas; j++)
-                        {
-                            if (x.movimentoPossivel(new Posicao(i,j)))
-                            {
-                                int valor = 0;
-
-                                if(partida.tab.peca(i, j) != null) valor++;
-                                if(estaProtegida(cor, x.posicao, new Posicao(i, j))) valor++;
-                                estaAmeacada(partida.adversaria(cor), new Posicao(i, j), ref valor);
-
-                                pesos[i, j] = valor;
-                            }
-                        }
-                    }
-                }
-                pesoMovimento.setMovimentos(x.movimentosPossiveis(), pesos);
-
-                if (jogadorMax == cor)
-                    movimentosMax.Add(pesoMovimento);
-                else
-                    movimentosMin.Add(pesoMovimento);
-            }
-        }
+        }        
 
         private MovimentoMiniMax pesosMovimentos(PartidaDeXadrez partida, Peca peca, Posicao destino, Cor cor)
         {
@@ -164,18 +123,19 @@ namespace maquina
             return new Posicao[2] { movimentoMiniMax.origem, movimentoMiniMax.destino };
         }
 
-        private MovimentoMiniMax MaxMove( PartidaDeXadrez partida, int profundidade, Posicao origem = null, Posicao destino = null)
+        private MovimentoMiniMax MaxMove( PartidaDeXadrez partida, int profundidade)
         {
-            MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MinValue);
+            MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MinValue);            
 
-            if (profundidade == 5 || partida.terminada)
+            if (profundidade == 2 || partida.terminada)
             {
-                return new MovimentoMiniMax(origem, destino, int.MaxValue);
+                return null;
             }
             else
             {
                 foreach(Peca peca in partida.pecasEmJogo(jogadorMax))
-                {                    
+                {
+                    MovimentoMiniMax movimentoMiniMin = new MovimentoMiniMax(null, null, int.MaxValue);
                     bool[,] mat = peca.movimentosPossiveis();
                     for (int i = 0; i < partida.tab.linhas;  i++)
                         for (int j = 0; j < partida.tab.colunas; j++)
@@ -183,10 +143,18 @@ namespace maquina
                             if (mat[i, j])
                             {
                                 MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i,j), jogadorMax);
-                                movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
-                                partida.executaMovimento(peca.posicao, new Posicao(i, j));                                    
-                                    
-                                Minmove(partida, peca.posicao, new Posicao(i, j));
+                                //movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
+                                Posicao origem = peca.posicao;
+                                Peca capturada = partida.executaMovimento(peca.posicao, new Posicao(i, j));
+
+                                MovimentoMiniMax minMove = MinMove(partida, profundidade);
+
+                                if (MovimentoMiniMax.LessThen(movimentoMiniMin, minMove)){
+                                    movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
+                                    movimentoMiniMin = minMove?? movimentoMiniMin;
+                                }                               
+
+                                partida.desfazMovimento(origem, peca.posicao, capturada);
                             }
                         }                    
                 }                
@@ -195,9 +163,38 @@ namespace maquina
             return movimentoMiniMax;
         }
 
-        private Posicao[] Minmove(PartidaDeXadrez partida, Posicao origem, Posicao destino)
+        private MovimentoMiniMax MinMove(PartidaDeXadrez partida, int profundidade)
         {
-            return null;
+            MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MaxValue);
+
+            if (partida.terminada)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (Peca peca in partida.pecasEmJogo(jogadorMin))
+                {
+                    bool[,] mat = peca.movimentosPossiveis();
+                    for (int i = 0; i < partida.tab.linhas; i++)
+                        for (int j = 0; j < partida.tab.colunas; j++)
+                        {
+                            if (mat[i, j])
+                            {
+                                MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i, j), jogadorMin);
+                                //movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "min");
+                                Posicao origem = peca.posicao;
+                                Peca capturada = partida.executaMovimento(peca.posicao, new Posicao(i, j));
+
+                                movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, MaxMove(partida, profundidade + 1)?? destinoMiniMax, "min");
+ 
+                                partida.desfazMovimento(origem, peca.posicao, capturada);
+                            }
+                        }
+                }
+            }
+
+            return movimentoMiniMax;
         }
     }
 }

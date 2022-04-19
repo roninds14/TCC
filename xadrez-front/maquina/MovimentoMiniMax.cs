@@ -20,7 +20,18 @@ namespace maquina
 
         public static MovimentoMiniMax GetRequiredValue(MovimentoMiniMax atual, MovimentoMiniMax novo, string tipo)
         {
-            return novo.valor >= atual.valor && tipo == "max" ? novo : atual;
+            return (novo.valor >= atual.valor && tipo == "max") ||
+                (novo.valor < atual.valor && tipo == "min") ? novo : atual;
+        }
+
+        public static Boolean LessThen(MovimentoMiniMax atual, MovimentoMiniMax novo)
+        {
+            return novo == null || novo.valor < atual.valor;
+        }
+
+        public static Boolean GreatThen(MovimentoMiniMax atual, MovimentoMiniMax novo)
+        {
+            return novo.valor >= atual.valor;
         }
     }
 }
