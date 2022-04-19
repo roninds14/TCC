@@ -55,5 +55,7 @@ namespace tabuleiro
         }
 
         public abstract bool[,] movimentosPossiveis();
+
+        public virtual bool[,] movimentosPossiveisAmeaca() { return null; }
     }
 }

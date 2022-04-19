@@ -1,13 +1,16 @@
-﻿using tabuleiro;
+﻿using System;
+using tabuleiro;
 
 namespace xadrez
 {
     class Peao : Peca
     {
         private PartidaDeXadrez partida;
+        private Boolean ameaca;
         public Peao(Tabuleiro tab, Cor cor, PartidaDeXadrez partida) : base(tab, cor) {
             this.partida = partida;
             peso = 0;
+            ameaca = false;
         }
 
         public override string ToString()
@@ -40,10 +43,10 @@ namespace xadrez
                 if (tab.posicaoValida(pos) && podeMover(pos)) mat[pos.linha, pos.coluna] = true;
 
                 pos.definirValores(posicao.linha - 1, posicao.coluna -1);
-                if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
+                if (tab.posicaoValida(pos) && (podeCapturar(pos) || ameaca)) mat[pos.linha, pos.coluna] = true;
 
                 pos.definirValores(posicao.linha - 1, posicao.coluna + 1);
-                if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
+                if (tab.posicaoValida(pos) && (podeCapturar(pos) || ameaca)) mat[pos.linha, pos.coluna] = true;
 
                 if (qteMovimentos == 0)
                 {
@@ -74,10 +77,10 @@ namespace xadrez
                 if (tab.posicaoValida(pos) && podeMover(pos)) mat[pos.linha, pos.coluna] = true;
 
                 pos.definirValores(posicao.linha + 1, posicao.coluna - 1);
-                if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
+                if (tab.posicaoValida(pos) && (podeCapturar(pos)||ameaca)) mat[pos.linha, pos.coluna] = true;
                 
                 pos.definirValores(posicao.linha + 1, posicao.coluna + 1);
-                if (tab.posicaoValida(pos) && podeCapturar(pos)) mat[pos.linha, pos.coluna] = true;
+                if (tab.posicaoValida(pos) && (podeCapturar(pos)||ameaca)) mat[pos.linha, pos.coluna] = true;
 
                 if (qteMovimentos == 0)
                 {
@@ -103,6 +106,15 @@ namespace xadrez
                 }
             }
 
+            return mat;
+        }
+
+        public override bool[,] movimentosPossiveisAmeaca()
+        {
+            ameaca = true;
+            bool[,] mat = new bool[tab.linhas, tab.colunas];
+            mat = this.movimentosPossiveis();
+            ameaca = false;
             return mat;
         }
     }

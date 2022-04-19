@@ -35,9 +35,9 @@ namespace maquina
             int valor = 0;
             Peca pecaDestino = partida.tab.peca(destino.linha, destino.coluna);
 
-            if (pecaDestino != null && pecaDestino.cor != cor) valor += 2 * Math.Abs(pecaDestino.peso);     //Captura Peca
-            if (estaProtegida(partida, cor, peca.posicao, destino)) valor++;                            //Estara protegida
-            estaAmeacada(partida, partida.adversaria(cor), destino, ref valor);                         //Ficara ameaçada
+            if (pecaDestino != null && pecaDestino.cor != cor) valor += 5;                                  //Captura Peca
+            if (estaProtegida(partida, cor, peca.posicao, destino)) valor++;                                //Estara protegida
+            estaAmeacada(partida, partida.adversaria(cor), destino, ref valor, peca);                             //Ficara ameaçada
 
             return new MovimentoMiniMax(peca.posicao, destino, valor);
         }
@@ -68,11 +68,11 @@ namespace maquina
                 return false;
         }
 
-        private void estaAmeacada(PartidaDeXadrez partida, Cor cor, Posicao destino, ref int valor)
+        private void estaAmeacada(PartidaDeXadrez partida, Cor cor, Posicao destino, ref int valor, Peca peca)
         {
             foreach (Peca x in partida.pecasEmJogo(cor))
             {
-                bool[,] movimentosPossiveis = x.movimentosPossiveis();
+                bool[,] movimentosPossiveis = x is Peao? x.movimentosPossiveisAmeaca(): x.movimentosPossiveis();
 
                 if (x.existeMovimentosPossiveis())
                     for (int i = 0; i < partida.tab.linhas; i++)
@@ -81,8 +81,8 @@ namespace maquina
                         {
                             if (movimentosPossiveis[i, j] && Posicao.comparaPosicao(destino, new Posicao(i, j)))
                             {
-                                valor--;
-                                valor += x.getPeso();
+                                valor -= 10;
+                                valor += peca.getPeso();
                                 if (estaProtegida(cor, x.posicao, destino))
                                 {
                                     valor--;
@@ -103,7 +103,7 @@ namespace maquina
         {
             MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MinValue);            
 
-            if (profundidade == 1 || partida.terminada)
+            if (profundidade == 2 || partida.terminada)
             {
                 return null;
             }
@@ -135,12 +135,17 @@ namespace maquina
 
                                 MovimentoMiniMax minMove = MinMove(partida, profundidade);
 
-                                if (MovimentoMiniMax.LessThen(movimentoMiniMin, minMove)){
-                                    movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
-                                    movimentoMiniMin = minMove?? movimentoMiniMin;
-                                }                               
-
                                 partida.desfazMovimento(origem, peca.posicao, capturada);
+
+                                if (MovimentoMiniMax.LessThen(movimentoMiniMin, minMove)){
+                                    Peca pecaCapturada = partida.executaMovimento(destinoMiniMax.origem, destinoMiniMax.destino);
+                                    bool testeXeque = partida.estaEmXeque(jogadorMax);
+                                    partida.desfazMovimento(destinoMiniMax.origem, destinoMiniMax.destino, pecaCapturada);
+
+                                    if(!testeXeque)
+                                        movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
+                                    movimentoMiniMin = minMove?? movimentoMiniMin;
+                                }                                
                             }
                         }                    
                 }                
