@@ -18,8 +18,8 @@ namespace maquina
             this.partida = partida;
             this.jogadorMax = jogador;
             this.jogadorMin = partida.adversaria(jogador);
-        
-            realizaMovimento();                
+
+            realizaMovimento();            
         }
 
         private void realizaMovimento()
@@ -28,14 +28,14 @@ namespace maquina
 
             this.origem = posicoes[0];
             this.destino = posicoes[1];
-        }        
+        }
 
         private MovimentoMiniMax pesosMovimentos(PartidaDeXadrez partida, Peca peca, Posicao destino, Cor cor)
         {
             int valor = 0;
             Peca pecaDestino = partida.tab.peca(destino.linha, destino.coluna);
 
-            if (pecaDestino != null && pecaDestino.cor != cor) valor += Math.Abs(pecaDestino.peso);     //Captura Peca
+            if (pecaDestino != null && pecaDestino.cor != cor) valor += 2 * Math.Abs(pecaDestino.peso);     //Captura Peca
             if (estaProtegida(partida, cor, peca.posicao, destino)) valor++;                            //Estara protegida
             estaAmeacada(partida, partida.adversaria(cor), destino, ref valor);                         //Ficara ameaçada
 
@@ -66,30 +66,6 @@ namespace maquina
                 }
             }
                 return false;
-        }
-
-        private void estaAmeacada(Cor cor, Posicao destino, ref int valor)
-        {
-            foreach(Peca x in partida.pecasEmJogo(cor)){
-                bool[,] movimentosPossiveis = x.movimentosPossiveis();
-
-                if( x.existeMovimentosPossiveis() )
-                    for (int i = 0; i < partida.tab.linhas; i++)
-                    {
-                        for (int j = 0; j < partida.tab.colunas; j++)
-                        {
-                            if (movimentosPossiveis[i, j] && Posicao.comparaPosicao(destino, new Posicao(i,j)))
-                            {
-                                valor--;
-                                valor += x.getPeso();
-                                if(estaProtegida(cor, x.posicao, destino))
-                                {
-                                    valor--;
-                                }
-                            }
-                        }
-                    }
-            }
         }
 
         private void estaAmeacada(PartidaDeXadrez partida, Cor cor, Posicao destino, ref int valor)
@@ -127,7 +103,7 @@ namespace maquina
         {
             MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MinValue);            
 
-            if (profundidade == 2 || partida.terminada)
+            if (profundidade == 1 || partida.terminada)
             {
                 return null;
             }
@@ -142,6 +118,16 @@ namespace maquina
                         {
                             if (mat[i, j])
                             {
+                                if (partida.estaEmXeque(jogadorMax))
+                                {
+                                    Posicao origemXeque = peca.posicao;
+                                    Posicao destino = new Posicao(i, j);
+                                    Peca pecaCapturada = partida.executaMovimento(origemXeque, destino);
+                                    bool testeXeque = partida.estaEmXeque(jogadorMax);
+                                    partida.desfazMovimento(origemXeque, destino, pecaCapturada);
+                                    if (testeXeque) continue;
+                                }
+
                                 MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i,j), jogadorMax);
                                 //movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
                                 Posicao origem = peca.posicao;

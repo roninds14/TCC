@@ -5,7 +5,7 @@ namespace xadrez
     class Dama : Peca
     {
         public Dama(Tabuleiro tab, Cor cor) : base(tab, cor) {
-            peso = -2;
+            peso = -6;
         }
 
         public override string ToString()
