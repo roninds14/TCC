@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using xadrez_front;
 
 using tabuleiro;
 
@@ -104,7 +105,6 @@ namespace xadrez
                     capturadas.Add(pecaCapturada);
                 }
             }
-
             return pecaCapturada;
         }
 
@@ -152,7 +152,7 @@ namespace xadrez
 
                     tab.colocarPeca(peao, posP);
                 }
-            }
+            }         
         }
 
         public void realizaJogada(Posicao origem, Posicao destino)

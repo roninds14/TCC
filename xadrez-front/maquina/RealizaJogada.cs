@@ -101,19 +101,17 @@ namespace maquina
 
         private MovimentoMiniMax MaxMove( PartidaDeXadrez partida, int profundidade)
         {
-            MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MinValue);            
+            MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MinValue);
+            MovimentoMiniMax movimentoMiniMin = new MovimentoMiniMax(null, null, int.MaxValue);
 
-            if (profundidade == 2 || partida.terminada)
+            if (profundidade == 1 || partida.terminada)
             {
-                return null;
-            }
-            else
-            {
-                foreach(Peca peca in partida.pecasEmJogo(jogadorMax))
+                if (partida.terminada) return null;
+
+                foreach (Peca peca in partida.pecasEmJogo(jogadorMax))
                 {
-                    MovimentoMiniMax movimentoMiniMin = new MovimentoMiniMax(null, null, int.MaxValue);
                     bool[,] mat = peca.movimentosPossiveis();
-                    for (int i = 0; i < partida.tab.linhas;  i++)
+                    for (int i = 0; i < partida.tab.linhas; i++)
                         for (int j = 0; j < partida.tab.colunas; j++)
                         {
                             if (mat[i, j])
@@ -122,45 +120,69 @@ namespace maquina
                                 {
                                     Posicao origemXeque = peca.posicao;
                                     Posicao destino = new Posicao(i, j);
-                                    Peca pecaCapturada = partida.executaMovimento(origemXeque, destino);
-                                    bool testeXeque = partida.estaEmXeque(jogadorMax);
-                                    partida.desfazMovimento(origemXeque, destino, pecaCapturada);
-                                    if (testeXeque) continue;
+                                    Peca pecaCapturadaXeque = partida.executaMovimento(origemXeque, destino);
+                                    bool testeOnXeque = partida.estaEmXeque(jogadorMax);
+                                    partida.desfazMovimento(origemXeque, destino, pecaCapturadaXeque);
+                                    if (testeOnXeque) continue;
                                 }
+                                MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i, j), jogadorMax);
+                                
+                                Peca pecaCapturada = partida.executaMovimento(destinoMiniMax.origem, destinoMiniMax.destino);
+                                bool testeXeque = partida.estaEmXeque(jogadorMax);
+                                partida.desfazMovimento(destinoMiniMax.origem, destinoMiniMax.destino, pecaCapturada);
 
-                                MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i,j), jogadorMax);
-                                //movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
-                                Posicao origem = peca.posicao;
-                                Peca capturada = partida.executaMovimento(peca.posicao, new Posicao(i, j));
-
-                                MovimentoMiniMax minMove = MinMove(partida, profundidade);
-
-                                partida.desfazMovimento(origem, peca.posicao, capturada);
-
-                                if (MovimentoMiniMax.LessThen(movimentoMiniMin, minMove)){
-                                    Peca pecaCapturada = partida.executaMovimento(destinoMiniMax.origem, destinoMiniMax.destino);
-                                    bool testeXeque = partida.estaEmXeque(jogadorMax);
-                                    partida.desfazMovimento(destinoMiniMax.origem, destinoMiniMax.destino, pecaCapturada);
-
-                                    if(!testeXeque)
-                                        movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
-                                    movimentoMiniMin = minMove?? movimentoMiniMin;
-                                }                                
+                                if (!testeXeque)
+                                    movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
                             }
-                        }                    
-                }                
-            }
+                        }
+                }
 
+                return movimentoMiniMax;
+            }
+            else
+            {
+                foreach (Peca peca in partida.pecasEmJogo(jogadorMax))
+                {
+                    bool[,] mat = peca.movimentosPossiveis();
+                    for (int i = 0; i < partida.tab.linhas; i++)
+                        for (int j = 0; j < partida.tab.colunas; j++)
+                        {
+                            if (mat[i, j])
+                            {
+                                if (partida.estaEmXeque(jogadorMax))
+                                {
+                                    Posicao origemXeque = peca.posicao;
+                                    Posicao destino = new Posicao(i, j);
+                                    Peca pecaCapturadaXeque = partida.executaMovimento(origemXeque, destino);
+                                    bool testeOnXeque = partida.estaEmXeque(jogadorMax);
+                                    partida.desfazMovimento(origemXeque, destino, pecaCapturadaXeque);
+                                    if (testeOnXeque) continue;
+                                }
+                                MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i, j), jogadorMax);
+
+                                Peca pecaCapturada = partida.executaMovimento(destinoMiniMax.origem, destinoMiniMax.destino);
+                                MovimentoMiniMax minMove = MinMove(partida, profundidade + 1);
+                                bool testeXeque = partida.estaEmXeque(jogadorMax);
+                                partida.desfazMovimento(destinoMiniMax.origem, destinoMiniMax.destino, pecaCapturada);
+
+                                if (MovimentoMiniMax.LessThen(movimentoMiniMin, minMove) && !testeXeque)
+                                {
+                                    movimentoMiniMax = destinoMiniMax;
+                                }
+                            }
+                        }
+                }
+            }
             return movimentoMiniMax;
         }
 
         private MovimentoMiniMax MinMove(PartidaDeXadrez partida, int profundidade)
         {
-            MovimentoMiniMax movimentoMiniMax = new MovimentoMiniMax(null, null, int.MaxValue);
+            MovimentoMiniMax movimentoMiniMin = new MovimentoMiniMax(null, null, int.MinValue);
 
-            if (partida.terminada)
+            if (partida.estaEmXeque(jogadorMin))
             {
-                return null;
+                return new MovimentoMiniMax(null, null, int.MinValue);
             }
             else
             {
@@ -172,20 +194,42 @@ namespace maquina
                         {
                             if (mat[i, j])
                             {
-                                MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i, j), jogadorMin);
-                                //movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "min");
-                                Posicao origem = peca.posicao;
-                                Peca capturada = partida.executaMovimento(peca.posicao, new Posicao(i, j));
+                                try
+                                {
+                                    MovimentoMiniMax destinoMiniMin = pesosMovimentos(partida, peca, new Posicao(i, j), jogadorMin);
 
-                                movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, MaxMove(partida, profundidade + 1)?? destinoMiniMax, "min");
- 
-                                partida.desfazMovimento(origem, peca.posicao, capturada);
+                                    Peca pecaCapturada = partida.executaMovimento(destinoMiniMin.origem, destinoMiniMin.destino);
+
+                                    if (!partida.tab.existePeca(destinoMiniMin.destino))
+                                        Console.WriteLine("Parou aqui");
+
+                                    MovimentoMiniMax minMove = MaxMove(partida, profundidade);
+
+                                    if (!partida.tab.existePeca(destinoMiniMin.destino))
+                                        Console.WriteLine("Parou aqui");
+
+                                    bool testeXeque = partida.estaEmXeque(jogadorMin);
+
+                                    
+
+                                    partida.desfazMovimento(destinoMiniMin.origem, destinoMiniMin.destino, pecaCapturada);
+
+                                    if (testeXeque)
+                                        minMove.setValor(int.MaxValue);
+
+                                    if (MovimentoMiniMax.GreatThen(movimentoMiniMin, minMove))
+                                    {
+                                        movimentoMiniMin = destinoMiniMin;
+                                    }
+                                }catch(Exception e)
+                                {
+                                    Console.WriteLine(e.Message);
+                                }
                             }
                         }
                 }
             }
-
-            return movimentoMiniMax;
+            return movimentoMiniMin;
         }
     }
 }

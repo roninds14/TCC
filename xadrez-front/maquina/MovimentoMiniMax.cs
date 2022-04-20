@@ -9,7 +9,12 @@ namespace maquina
     {
         public Posicao origem { get; }
         public Posicao destino { get; }
-        public int valor { get; }
+        public int valor { get; private set; }
+
+        public void setValor(int valor)
+        {
+            this.valor = valor;
+        }
 
         public MovimentoMiniMax(Posicao origem, Posicao destino, int valor)
         {
@@ -26,7 +31,7 @@ namespace maquina
 
         public static Boolean LessThen(MovimentoMiniMax atual, MovimentoMiniMax novo)
         {
-            return novo == null || novo.valor < atual.valor;
+            return novo.valor < atual.valor;
         }
 
         public static Boolean GreatThen(MovimentoMiniMax atual, MovimentoMiniMax novo)
