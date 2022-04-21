@@ -72,7 +72,7 @@ namespace xadrez
             if (tab.posicaoValida(pos) && podeMover(pos)) mat[pos.linha, pos.coluna] = true;
 
             //roque
-            if(qteMovimentos==0 && !partida.xeque)
+            if(qteMovimentos==0 && !partida.xeque && false)
             {
                 //pequeno
                 Posicao posT1 = new Posicao(posicao.linha, posicao.coluna + 3);

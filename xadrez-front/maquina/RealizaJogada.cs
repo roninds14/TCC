@@ -167,7 +167,8 @@ namespace maquina
 
                                 if (MovimentoMiniMax.LessThen(movimentoMiniMin, minMove) && !testeXeque)
                                 {
-                                    movimentoMiniMax = destinoMiniMax;
+                                    movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
+                                    movimentoMiniMin = MovimentoMiniMax.GetRequiredValue(movimentoMiniMin, minMove, "min");
                                 }
                             }
                         }
@@ -208,9 +209,7 @@ namespace maquina
                                     if (!partida.tab.existePeca(destinoMiniMin.destino))
                                         Console.WriteLine("Parou aqui");
 
-                                    bool testeXeque = partida.estaEmXeque(jogadorMin);
-
-                                    
+                                    bool testeXeque = partida.estaEmXeque(jogadorMin);                                    
 
                                     partida.desfazMovimento(destinoMiniMin.origem, destinoMiniMin.destino, pecaCapturada);
 
