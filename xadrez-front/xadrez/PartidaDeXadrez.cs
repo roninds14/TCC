@@ -53,6 +53,11 @@ namespace xadrez
             jogadores[1] = new Jogador(false, cor != Cor.Branca ? Cor.Branca : Cor.Preta);
         }
 
+        public void setPecaVulneravelEnPassant(Peca p)
+        {
+            pecaVulneravelEnPassant = p;
+        }
+
         public bool tipoJogador(Cor jogador)
         {
             return jogadores[0].cor == jogador ? jogadores[0].tipo : jogadores[1].tipo;
