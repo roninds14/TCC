@@ -161,8 +161,14 @@ namespace maquina
                                 MovimentoMiniMax destinoMiniMax = pesosMovimentos(partida, peca, new Posicao(i, j), jogadorMax);
 
                                 Peca pecaCapturada = partida.executaMovimento(destinoMiniMax.origem, destinoMiniMax.destino);
-                                MovimentoMiniMax minMove = MinMove(partida, profundidade + 1);
                                 bool testeXeque = partida.estaEmXeque(jogadorMax);
+                                if (testeXeque) 
+                                {
+                                    partida.desfazMovimento(destinoMiniMax.origem, destinoMiniMax.destino, pecaCapturada);
+                                    continue; 
+                                }
+
+                                MovimentoMiniMax minMove = MinMove(partida, profundidade + 1);                                
                                 partida.desfazMovimento(destinoMiniMax.origem, destinoMiniMax.destino, pecaCapturada);
 
                                 if (MovimentoMiniMax.LessThen(movimentoMiniMin, minMove) && !testeXeque)
@@ -201,13 +207,14 @@ namespace maquina
 
                                     Peca pecaCapturada = partida.executaMovimento(destinoMiniMin.origem, destinoMiniMin.destino);
 
-                                    if (!partida.tab.existePeca(destinoMiniMin.destino))
-                                        Console.WriteLine("Parou aqui");
-
+                                    if(pecaCapturada is Rei)
+                                    {
+                                        destinoMiniMin.setValor(int.MinValue + 1);
+                                        partida.desfazMovimento(destinoMiniMin.origem, destinoMiniMin.destino, pecaCapturada);
+                                        return destinoMiniMin;
+                                    }
+                                    
                                     MovimentoMiniMax minMove = MaxMove(partida, profundidade);
-
-                                    if (!partida.tab.existePeca(destinoMiniMin.destino))
-                                        Console.WriteLine("Parou aqui");
 
                                     bool testeXeque = partida.estaEmXeque(jogadorMin);                                    
 
