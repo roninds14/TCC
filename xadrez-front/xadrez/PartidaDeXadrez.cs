@@ -264,6 +264,20 @@ namespace xadrez
             return aux;
         }
 
+        public HashSet<Peca> pecasEmJogo(Cor cor, Peca peca)
+        {
+            HashSet<Peca> aux = new HashSet<Peca>();
+            foreach (Peca x in pecas)
+            {
+                if (x.cor == cor && x.GetType() == peca.GetType())
+                {
+                    aux.Add(x);
+                }
+            }
+            aux.ExceptWith(pecasCapturadas(cor));
+            return aux;
+        }
+
         public Cor adversaria(Cor cor)
         {
             return cor == Cor.Branca ? Cor.Preta : Cor.Branca;

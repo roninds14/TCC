@@ -32,14 +32,66 @@ namespace maquina
 
         private MovimentoMiniMax pesosMovimentos(PartidaDeXadrez partida, Peca peca, Posicao destino, Cor cor)
         {
+            /*
             int valor = 0;
             Peca pecaDestino = partida.tab.peca(destino.linha, destino.coluna);
 
             if (pecaDestino != null && pecaDestino.cor != cor) valor += 5;                                  //Captura Peca
             if (estaProtegida(partida, cor, peca.posicao, destino)) valor++;                                //Estara protegida
             estaAmeacada(partida, partida.adversaria(cor), destino, ref valor, peca);                             //Ficara ameaçada
+            */
+            return new MovimentoMiniMax(peca.posicao, destino, this.evalBoard(partida,cor));
+        }
 
-            return new MovimentoMiniMax(peca.posicao, destino, valor);
+        private int evalBoard(PartidaDeXadrez partida, Cor cor)
+        {
+            int wp, wr, wk, wb, wd, bp, br, bk, bb, bd;
+            wp = wr = wk = wb = wd = bp = br = bk = bb = bd = 0;
+
+            foreach (Peca peca in partida.pecasEmJogo(Cor.Branca)) {
+                if (peca is Peao) wp++;
+                else if (peca is Torre) wr++;
+                else if (peca is Cavalo) wk++;
+                else if (peca is Bispo) wb++;
+                else if (peca is Dama) wd++;
+            }
+
+            foreach (Peca peca in partida.pecasEmJogo(Cor.Preta))
+            {
+                if (peca is Peao) bp++;
+                else if (peca is Torre) br++;
+                else if (peca is Cavalo) bk++;
+                else if (peca is Bispo) bb++;
+                else if (peca is Dama) bd++;
+            }
+
+            int material = cor == Cor.Branca ? 100 * (wp - bp) + 320 * (wk - bk) + 330 * (wb - bb) + 500 * (wr - br) + 900 * (wd - bd) :
+                100 * (bp - wp) + 320 * (bk - wk) + 330 * (bb - wb) + 500 * (br - wr) + 900 * (bd - wd);
+
+            int peaoPosicao, torreProsicao, cavaloPosicao, bispoPosicao, damaPosicao, reiPosicao;
+            peaoPosicao = torreProsicao = cavaloPosicao =  bispoPosicao =  damaPosicao = reiPosicao = 0;
+
+            foreach (Peca peca in partida.pecasEmJogo(Cor.Branca))
+            {
+                if (peca is Peao) peaoPosicao = cor == Cor.Branca? +peca.getTableState(cor): -peca.getTableState(cor);
+                else if (peca is Torre) torreProsicao = cor == Cor.Branca ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Cavalo) cavaloPosicao = cor == Cor.Branca ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Bispo) bispoPosicao = cor == Cor.Branca ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Dama) damaPosicao = cor == Cor.Branca ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Rei) reiPosicao = cor == Cor.Branca ? +peca.getTableState(cor) : -peca.getTableState(cor);
+            }
+
+            foreach (Peca peca in partida.pecasEmJogo(Cor.Preta))
+            {
+                if (peca is Peao) peaoPosicao = cor == Cor.Preta ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Torre) torreProsicao = cor == Cor.Preta ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Cavalo) cavaloPosicao = cor == Cor.Preta ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Bispo) bispoPosicao = cor == Cor.Preta ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Dama) damaPosicao = cor == Cor.Preta ? +peca.getTableState(cor) : -peca.getTableState(cor);
+                else if (peca is Rei) reiPosicao = cor == Cor.Preta ? +peca.getTableState(cor) : -peca.getTableState(cor);
+            }
+
+            return material + peaoPosicao + torreProsicao + cavaloPosicao + bispoPosicao + damaPosicao + reiPosicao;
         }
 
         private bool estaProtegida(Cor cor, Posicao peca, Posicao destino)
