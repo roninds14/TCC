@@ -269,7 +269,7 @@ namespace xadrez
             return cor == Cor.Branca ? Cor.Preta : Cor.Branca;
         }
 
-        private Peca rei(Cor cor)
+        public Peca rei(Cor cor)
         {
             foreach(Peca x in pecasEmJogo(cor))
             {

@@ -28,6 +28,11 @@ namespace tabuleiro
             return pecas[pos.linha, pos.coluna];
         }
 
+        public Peca[,] getPecas()
+		{
+            return this.pecas;
+		}
+
         public bool existePeca(Posicao pos)
         {
             validarPosicao(pos);
