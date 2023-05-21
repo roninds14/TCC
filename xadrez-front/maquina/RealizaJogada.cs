@@ -347,34 +347,32 @@ namespace maquina
 
         public bool JogoEstaNoInicio(PartidaDeXadrez partida)
         {
-            //if (tabuleiro.ContarPecas() < 16)
-            //    return false;
+            if (partida.pecasEmJogo(partida.jogadorAtual).Count < 8 &&
+                partida.pecasEmJogo(partida.adversaria(partida.jogadorAtual)).Count < 8)
+			    return false;
 
-            //// Condição 2: Verificar se os reis estão em suas posições iniciais
-            //Peca reiJogador1 = tabuleiro.ObterRei(Cor.Jogador1);
-            //Peca reiJogador2 = tabuleiro.ObterRei(Cor.Jogador2);
-            //if (reiJogador1 == null || reiJogador2 == null ||
-            //    reiJogador1.Linha != 0 || reiJogador1.Coluna != 4 ||
-            //    reiJogador2.Linha != 7 || reiJogador2.Coluna != 4)
-            //{
-            //    return false;
-            //}
+            Peca reiBranco = partida.rei(Cor.Branca);
+		    Peca reiPreto = partida.rei(Cor.Preta);
+		    if (reiBranco == null || reiPreto == null ||
+                reiBranco.posicao.linha != 0 || reiBranco.posicao.coluna != 4 ||
+                reiPreto.posicao.linha != 7 || reiPreto.posicao.coluna != 4)
+		    {
+			    return false;
+		    }
 
-            //// Condição 3: Verificar se as torres estão nas posições iniciais
-            //Peca torreJogador1A = tabuleiro.ObterPeca(0, 0);
-            //Peca torreJogador1H = tabuleiro.ObterPeca(0, 7);
-            //Peca torreJogador2A = tabuleiro.ObterPeca(7, 0);
-            //Peca torreJogador2H = tabuleiro.ObterPeca(7, 7);
-            //if (torreJogador1A == null || torreJogador1H == null ||
-            //    torreJogador2A == null || torreJogador2H == null ||
-            //    torreJogador1A.Nome != "Torre" || torreJogador1H.Nome != "Torre" ||
-            //    torreJogador2A.Nome != "Torre" || torreJogador2H.Nome != "Torre")
-            //{
-            //    return false;
-            //}
+			Peca torreBranca1A = partida.tab.peca(new Posicao(0, 0));
+			Peca torreBranca1H = partida.tab.peca(new Posicao(0, 7));
+			Peca torrePreta2A = partida.tab.peca(new Posicao(7, 0));
+			Peca torrePreta2H = partida.tab.peca(new Posicao(7, 7));
+			if (torreBranca1A == null || torreBranca1H == null ||
+                torrePreta2A == null || torrePreta2H == null ||
+                torreBranca1A is Torre || torreBranca1H is Torre ||
+                torrePreta2A is Torre || torrePreta2H is Torre)
+			{
+				return false;
+			}
 
-            //// Se todas as condições forem atendidas, o jogo está no início
-            return true;
+			return true;
         }
     }
 }
