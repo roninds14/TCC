@@ -89,26 +89,27 @@ namespace maquina
                             {
                                 try
 								{
-                                    if (partida.estaEmXeque(jogadorMax))
+                                    Posicao origem = peca.posicao;
+                                    Posicao destino = new Posicao(i, j);
+                                    Peca pecaEnPAssant = partida.pecaVulneravelEnPassant;
+
+                                    //en Passant
+                                    if (peca is Peao && Math.Abs(origem.linha - destino.linha) == 2)
                                     {
-                                        Posicao origemXeque = peca.posicao;
-                                        Posicao destino = new Posicao(i, j);
-                                        Peca pecaCapturadaXeque = partida.executaMovimento(origemXeque, destino);
-                                        bool testeOnXeque = partida.estaEmXeque(jogadorMax);
-                                        partida.desfazMovimento(origemXeque, destino, pecaCapturadaXeque);
-                                        if (testeOnXeque) continue;
+                                        partida.setPecaVulneravelEnPassant(peca);
+                                    }
+                                    else
+                                    {
+                                        partida.setPecaVulneravelEnPassant(null);
                                     }
 
-                                    Posicao origem = peca.posicao;
-
-                                    Peca pecaCapturada = partida.executaMovimento(peca.posicao, new Posicao(i, j));
+                                    Peca pecaCapturada = partida.executaMovimento(origem, destino);
                                     MovimentoMiniMax destinoMiniMax = PesosMovimentos(partida, peca, origem, jogadorMax, pecaCapturada);
 
-                                    bool testeXeque = partida.estaEmXeque(jogadorMax);
-                                    if (!testeXeque)
-                                        movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
+                                    movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
 
-                                    partida.desfazMovimento(origem, peca.posicao, pecaCapturada);
+                                    partida.desfazMovimento(origem, destino, pecaCapturada);
+                                    partida.setPecaVulneravelEnPassant(pecaEnPAssant);
                                 }
                                 catch(Exception e)
 								{
@@ -122,7 +123,7 @@ namespace maquina
             else
             {
                 foreach (Peca peca in partida.pecasEmJogo(jogadorMax))
-                {                    
+                {
                     bool[,] mat = peca.movimentosPossiveis();
                     for (int i = 0; i < partida.tab.linhas; i++)
                         for (int j = 0; j < partida.tab.colunas; j++)
@@ -131,30 +132,28 @@ namespace maquina
                             {
 								try
 								{
-                                    if (partida.estaEmXeque(jogadorMax))
-                                    {
-                                        Posicao origemXeque = peca.posicao;
-                                        Posicao destino = new Posicao(i, j);
-                                        Peca pecaCapturadaXeque = partida.executaMovimento(origemXeque, destino);
-                                        bool testeOnXeque = partida.estaEmXeque(jogadorMax);
-                                        partida.desfazMovimento(origemXeque, destino, pecaCapturadaXeque);
-                                        if (testeOnXeque) continue;
-                                    }
                                     Posicao origem = peca.posicao;
+                                    Posicao destino = new Posicao(i, j);
+                                    Peca pecaEnPAssant = partida.pecaVulneravelEnPassant;
+
+                                    //en Passant
+                                    if (peca is Peao && Math.Abs(origem.linha - destino.linha) == 2)
+                                    {
+                                        partida.setPecaVulneravelEnPassant(peca);
+                                    }
+                                    else
+                                    {
+                                        partida.setPecaVulneravelEnPassant(null);
+                                    }
 
                                     Peca pecaCapturada = partida.executaMovimento(peca.posicao, new Posicao(i, j));
 
                                     MovimentoMiniMax destinoMiniMax = PesosMovimentos(partida, peca, origem, jogadorMax, pecaCapturada);
 
-                                    bool testeXeque = partida.estaEmXeque(jogadorMax);
-                                    if (testeXeque)
-                                    {
-                                        partida.desfazMovimento(origem, peca.posicao, pecaCapturada);
-                                        continue;
-                                    }
-
                                     MovimentoMiniMax minMove = MinMove(partida, profundidade + 1);
-                                    partida.desfazMovimento(origem, peca.posicao, pecaCapturada);
+                                    partida.desfazMovimento(origem, destino, pecaCapturada);
+
+                                    partida.setPecaVulneravelEnPassant(pecaEnPAssant);
 
                                     movimentoMiniMax = MovimentoMiniMax.GetRequiredValue(movimentoMiniMax, destinoMiniMax, "max");
                                 }
@@ -173,55 +172,59 @@ namespace maquina
         {
             MovimentoMiniMax movimentoMiniMin = new MovimentoMiniMax(null, null, int.MinValue);
 
-            if (partida.estaEmXeque(jogadorMin))
+            foreach (Peca peca in partida.pecasEmJogo(jogadorMin))
             {
-                return new MovimentoMiniMax(null, null, int.MinValue);
-            }
-            else
-            {
-                foreach (Peca peca in partida.pecasEmJogo(jogadorMin))
-                {
-                    bool[,] mat = peca.movimentosPossiveis();
-                    for (int i = 0; i < partida.tab.linhas; i++)
-                        for (int j = 0; j < partida.tab.colunas; j++)
+                bool[,] mat = peca.movimentosPossiveis();
+                for (int i = 0; i < partida.tab.linhas; i++)
+                    for (int j = 0; j < partida.tab.colunas; j++)
+                    {
+                        if (mat[i, j])
                         {
-                            if (mat[i, j])
+                            try
                             {
-                                try
+                                Posicao origem = peca.posicao;
+                                Posicao destino = new Posicao(i, j);
+                                Peca pecaEnPAssant = partida.pecaVulneravelEnPassant;
+
+                                //en Passant
+                                if (peca is Peao && Math.Abs(origem.linha - destino.linha) == 2)
                                 {
-                                    Posicao origem = peca.posicao;
-                                    Peca pecaCapturada = partida.executaMovimento(peca.posicao, new Posicao(i, j));
-
-                                    MovimentoMiniMax destinoMiniMin = PesosMovimentos(partida, peca, origem, jogadorMin, pecaCapturada);
-
-                                    if (pecaCapturada is Rei)
-                                    {
-                                        destinoMiniMin.setValor(int.MinValue + 1);
-                                        partida.desfazMovimento(origem, peca.posicao, pecaCapturada);
-                                        return destinoMiniMin;
-                                    }
-
-                                    MovimentoMiniMax minMove = MaxMove(partida, profundidade);
-
-                                    bool testeXeque = partida.estaEmXeque(jogadorMin);
-
-                                    partida.desfazMovimento(origem, peca.posicao, pecaCapturada);
-
-                                    if (testeXeque)
-                                        minMove.setValor(int.MaxValue);
-
-                                    if (MovimentoMiniMax.GreatThen(movimentoMiniMin, minMove))
-                                    {
-                                        movimentoMiniMin = destinoMiniMin;
-                                    }
-                                }catch(Exception e)
-                                {
-                                    Console.WriteLine("Erro ao executar nomimento min:" + e.Message);
+                                    partida.setPecaVulneravelEnPassant(peca);
                                 }
+                                else
+                                {
+                                    partida.setPecaVulneravelEnPassant(null);
+                                }
+
+                                Peca pecaCapturada = partida.executaMovimento(origem, destino);
+
+                                MovimentoMiniMax destinoMiniMin = PesosMovimentos(partida, peca, origem, jogadorMin, pecaCapturada);
+
+                                if (pecaCapturada is Rei)
+                                {
+                                    destinoMiniMin.setValor(int.MinValue + 1);
+                                    partida.desfazMovimento(origem, destino, pecaCapturada);
+                                    partida.setPecaVulneravelEnPassant(pecaEnPAssant);
+                                    return destinoMiniMin;
+                                }
+
+                                MovimentoMiniMax minMove = MaxMove(partida, profundidade);
+
+                                partida.desfazMovimento(origem, destino, pecaCapturada);
+                                partida.setPecaVulneravelEnPassant(pecaEnPAssant);
+
+                                if (MovimentoMiniMax.GreatThen(movimentoMiniMin, minMove))
+                                {
+                                    movimentoMiniMin = destinoMiniMin;
+                                }
+                            }catch(Exception e)
+                            {
+                                Console.WriteLine("Erro ao executar nomimento min:" + e.Message);
                             }
                         }
-                }
+                    }
             }
+
             return movimentoMiniMin;
         }
 
@@ -285,6 +288,10 @@ namespace maquina
             int seguranca = 0;
 
             Rei rei = (Rei)partida.rei(partida.jogadorAtual);
+
+            if (rei is null)
+                return seguranca;
+
             Posicao posicaoRei = rei.posicao;
             int linhaRei = posicaoRei.linha;
             int colunaRei = posicaoRei.coluna;
