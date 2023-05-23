@@ -20,6 +20,11 @@ namespace xadrez
         public bool xeque { get; private set; }
         public Peca pecaVulneravelEnPassant { get; private set; }
 
+        public PartidaDeXadrez Clone()
+        {
+            return (PartidaDeXadrez)this.MemberwiseClone();
+        }
+
         public PartidaDeXadrez()
         {
             tab = new Tabuleiro(8, 8);
@@ -116,7 +121,7 @@ namespace xadrez
         public void desfazMovimento(Posicao origem, Posicao destino, Peca peca)
         {
             Peca p = tab.retirarPeca(destino);
-            p.decrementarQtdeMovimentos();
+            p?.decrementarQtdeMovimentos();
             if(peca != null)
             {
                 tab.colocarPeca(peca, destino);
