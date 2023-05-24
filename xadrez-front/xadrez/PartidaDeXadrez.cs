@@ -7,7 +7,7 @@ using tabuleiro;
 
 namespace xadrez
 {
-    class PartidaDeXadrez
+    class PartidaDeXadrez : ICloneable
     {
         public Tabuleiro tab { get; private set; }
         public int turno { get; private set; }
@@ -20,9 +20,9 @@ namespace xadrez
         public bool xeque { get; private set; }
         public Peca pecaVulneravelEnPassant { get; private set; }
 
-        public PartidaDeXadrez Clone()
+        public object Clone()
         {
-            return (PartidaDeXadrez)this.MemberwiseClone();
+            return MemberwiseClone();
         }
 
         public PartidaDeXadrez()
