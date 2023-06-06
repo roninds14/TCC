@@ -7,7 +7,7 @@ using tabuleiro;
 
 namespace xadrez
 {
-    class PartidaDeXadrez : ICloneable
+    public class PartidaDeXadrez : ICloneable
     {
         public Tabuleiro tab { get; private set; }
         public int turno { get; private set; }

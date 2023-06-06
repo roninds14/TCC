@@ -2,7 +2,7 @@
 
 namespace xadrez
 {
-    class Jogador
+    public class Jogador
     {
         public Cor cor { get; private set; }
         public bool tipo { get; private set; }
