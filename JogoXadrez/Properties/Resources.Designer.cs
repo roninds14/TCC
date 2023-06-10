@@ -73,6 +73,16 @@ namespace JogoXadrez.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap B_C {
+            get {
+                object obj = ResourceManager.GetObject("B_C", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap B_P {
             get {
                 object obj = ResourceManager.GetObject("B_P", resourceCulture);
@@ -93,6 +103,16 @@ namespace JogoXadrez.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap C_C {
+            get {
+                object obj = ResourceManager.GetObject("C_C", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap C_P {
             get {
                 object obj = ResourceManager.GetObject("C_P", resourceCulture);
@@ -106,6 +126,16 @@ namespace JogoXadrez.Properties {
         internal static System.Drawing.Bitmap D_B {
             get {
                 object obj = ResourceManager.GetObject("D_B", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap D_C {
+            get {
+                object obj = ResourceManager.GetObject("D_C", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -144,6 +174,16 @@ namespace JogoXadrez.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap P_C {
+            get {
+                object obj = ResourceManager.GetObject("P_C", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap P_P {
             get {
                 object obj = ResourceManager.GetObject("P_P", resourceCulture);
@@ -164,6 +204,16 @@ namespace JogoXadrez.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap R_C {
+            get {
+                object obj = ResourceManager.GetObject("R_C", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap R_P {
             get {
                 object obj = ResourceManager.GetObject("R_P", resourceCulture);
@@ -177,6 +227,16 @@ namespace JogoXadrez.Properties {
         internal static System.Drawing.Bitmap T_B {
             get {
                 object obj = ResourceManager.GetObject("T_B", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap T_C {
+            get {
+                object obj = ResourceManager.GetObject("T_C", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

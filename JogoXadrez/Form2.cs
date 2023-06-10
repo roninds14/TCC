@@ -28,13 +28,13 @@ namespace JogoXadrez
 		private readonly Dictionary<int, int> TranslatePositionMove = new Dictionary<int, int>()
 		{
 			{ 0 , 0},
-			{ 1 , 58},
-			{ 2 , 118},
-			{ 3 , 178},
-			{ 4 , 238},
-			{ 5 , 298},
-			{ 6 , 358},
-			{ 7 , 418}
+			{ 1 , 59},
+			{ 2 , 119},
+			{ 3 , 179},
+			{ 4 , 239},
+			{ 5 , 299},
+			{ 6 , 359},
+			{ 7 , 419}
 		};
 		private IList<PicturePeca> PicturePeca;
 		private IList<PicturePosicao> PictureMove;
@@ -146,6 +146,11 @@ namespace JogoXadrez
 
 					newPicture.Click += MoveClick;
 
+					if(Partida.tab.existePeca(new Posicao(i,j)) && Partida.tab.peca(new Posicao(i, j)).cor != Partida.jogadorAtual)
+					{
+						newPicture.Image = GetImagegGray(Partida.tab.peca(new Posicao(i, j)));
+					}
+
 					PictureMove.Add(new PicturePosicao(new Posicao(i, j), newPicture));
 					pictureBoard.Controls.Add(newPicture);
 					newPicture.BringToFront();
@@ -183,6 +188,31 @@ namespace JogoXadrez
 
 			return typeOfPeca;
 		}
+
+		private Image GetImagegGray(Peca peca){
+			Image typeOfPeca = null;
+
+			if (peca is Peao)
+				typeOfPeca = Properties.Resources.P_C;
+
+			else if (peca is Cavalo)
+				typeOfPeca = Properties.Resources.C_C;
+
+			else if (peca is Bispo)
+				typeOfPeca = Properties.Resources.B_C;
+
+			else if (peca is Torre)
+				typeOfPeca = Properties.Resources.T_C;
+
+			else if (peca is Dama)
+				typeOfPeca = Properties.Resources.D_C;
+
+			else if (peca is Rei)
+				typeOfPeca = Properties.Resources.R_C;
+
+			return typeOfPeca;
+		}
+
 
 		private void PecaClick(object sender, EventArgs e)
 		{
