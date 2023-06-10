@@ -6,7 +6,7 @@ using tabuleiro;
 
 namespace xadrez
 {
-    class Rei : Peca
+    public class Rei : Peca
     {
         private PartidaDeXadrez partida;
 

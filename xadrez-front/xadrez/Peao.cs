@@ -3,7 +3,7 @@ using tabuleiro;
 
 namespace xadrez
 {
-    class Peao : Peca
+    public class Peao : Peca
     {
         private PartidaDeXadrez partida;
         private Boolean ameaca;

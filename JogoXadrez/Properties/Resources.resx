@@ -121,4 +121,40 @@
   <data name="kisspng-computer-icons-icon-design-undo-download-curve-5abbc5b623bf83.5378818515222552861464" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\kisspng-computer-icons-icon-design-undo-download-curve-5abbc5b623bf83.5378818515222552861464.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="B_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B_B.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="B_P" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\B_P.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="C_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\C_B.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="C_P" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\C_P.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="D_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\D_B.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="D_P" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\D_P.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P_B.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="P_P" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\P_P.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="R_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\R_B.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="R_P" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\R_P.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="T_B" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\T_B.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="T_P" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\T_P.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

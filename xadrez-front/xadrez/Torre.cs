@@ -6,7 +6,7 @@ using tabuleiro;
 
 namespace xadrez
 {
-    class Torre : Peca
+    public class Torre : Peca
     {
         public Torre(Tabuleiro tab, Cor cor) : base(tab, cor) {
             peso = -2;
