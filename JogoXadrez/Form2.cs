@@ -134,8 +134,8 @@ namespace JogoXadrez
 					PictureBox newPicture = new PictureBox();
 
 					newPicture.BackColor = Color.FromArgb(128, Color.Gray);
-					newPicture.Height = 59;
-					newPicture.Width = 59;
+					newPicture.Height = 57;
+					newPicture.Width = 57;
 
 					newPicture.Location = new Point(
 						TranslatePositionMove[j],
@@ -195,6 +195,11 @@ namespace JogoXadrez
 
 			if(pecaClicada.cor != Partida.jogadorAtual)
 			{
+				MessageBox.Show(
+					"Vez das peças " + Partida.jogadorAtual.ToString() + "s",
+					"Não é a sua vez!",
+					MessageBoxButtons.OK,
+					MessageBoxIcon.Warning);
 				return;
 			}
 
