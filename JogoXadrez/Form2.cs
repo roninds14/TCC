@@ -39,6 +39,7 @@ namespace JogoXadrez
 		private IList<PicturePeca> PicturePeca;
 		private IList<PicturePosicao> PictureMove;
 		private IList<Label> HistoryLabel;
+		private IList<PictureBox> Capturadas;
 		private Posicao Origem;
 		private PartidaDeXadrez Partida;
 
@@ -49,6 +50,7 @@ namespace JogoXadrez
 			PicturePeca = new List<PicturePeca>();
 			PictureMove = new List<PicturePosicao>();
 			HistoryLabel = new List<Label>();
+			Capturadas = new List<PictureBox>();
 
 			Partida = new PartidaDeXadrez();
 
@@ -72,6 +74,7 @@ namespace JogoXadrez
 			}
 
 			FillHistory();
+			FillCapturadas();
 		}
 
 		private void SetPlayers(int players, int color)
@@ -90,6 +93,7 @@ namespace JogoXadrez
 		{
 			RemovePeca();
 			RemoveHistory();
+			RemoveCapturadas();
 
 			foreach (PicturePosicao picturePosicao in PictureMove)
 			{
@@ -113,6 +117,14 @@ namespace JogoXadrez
 			foreach (Label label in HistoryLabel)
 			{
 				label.Dispose();
+			}
+		}
+
+		private void RemoveCapturadas()
+		{
+			foreach (PictureBox capturada in Capturadas)
+			{
+				capturada.Dispose();
 			}
 		}
 
@@ -348,6 +360,39 @@ namespace JogoXadrez
 
 				HistoryLabel.Add(newLabel);
 				moves.Controls.Add(newLabel);
+			}
+		}
+
+		private void FillCapturadas()
+		{
+			int brancas = 0;
+			int pretas = 0;
+
+			foreach(Peca peca in Partida.capturadas)
+			{
+				PictureBox newPicture = new PictureBox();
+
+				int fator = peca.cor == Cor.Branca ? brancas : pretas;
+				int x = 27 + 36 * fator;
+				int y = peca.cor == Cor.Branca ? 32 : 69;
+
+				newPicture.Image = GetImage(peca);
+				newPicture.Height = 30;
+				newPicture.Width = 30;
+				newPicture.Location = new Point( x, y);
+				newPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+				
+				if (peca.cor == Cor.Branca)
+				{
+					brancas++;
+				}
+				else
+				{
+					pretas++;
+				}
+
+				Capturadas.Add(newPicture);
+				capturadas.Controls.Add(newPicture);
 			}
 		}
 	}

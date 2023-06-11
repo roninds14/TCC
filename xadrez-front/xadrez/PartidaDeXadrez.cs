@@ -17,7 +17,7 @@ namespace xadrez
         public Jogador[] jogadores { get; private set; }
         public bool terminada { get; private set; }
         private HashSet<Peca> pecas;
-        private HashSet<Peca> capturadas;
+        public HashSet<Peca> capturadas { get; private set; }
         public HashSet<Historico> historico { get; private set; }
         public bool xeque { get; private set; }
         public Peca pecaVulneravelEnPassant { get; private set; }
