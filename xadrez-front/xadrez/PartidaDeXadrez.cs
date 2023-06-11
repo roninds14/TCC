@@ -4,6 +4,7 @@ using System.Text;
 using xadrez_front;
 
 using tabuleiro;
+using System.Linq;
 
 namespace xadrez
 {
@@ -17,6 +18,7 @@ namespace xadrez
         public bool terminada { get; private set; }
         private HashSet<Peca> pecas;
         private HashSet<Peca> capturadas;
+        public HashSet<Historico> historico { get; private set; }
         public bool xeque { get; private set; }
         public Peca pecaVulneravelEnPassant { get; private set; }
 
@@ -32,6 +34,7 @@ namespace xadrez
             jogadorAtual = Cor.Branca;
             pecas = new HashSet<Peca>();
             capturadas = new HashSet<Peca>();
+            historico = new HashSet<Historico>();
             colocarPecas();
             terminada = false;
             xeque = false;
@@ -115,6 +118,9 @@ namespace xadrez
                     capturadas.Add(pecaCapturada);
                 }
             }
+
+            historico.Add(new Historico(p, origem, destino, turno, pecaCapturada));
+
             return pecaCapturada;
         }
 
@@ -162,7 +168,9 @@ namespace xadrez
 
                     tab.colocarPeca(peao, posP);
                 }
-            }         
+            }
+
+            historico.Remove(historico.Last());
         }
 
         public void realizaJogada(Posicao origem, Posicao destino)
@@ -178,7 +186,7 @@ namespace xadrez
             Peca p = tab.peca(destino);
 
             // promocao
-            if(p is Peao)
+            if (p is Peao)
             {
                 if((p.cor == Cor.Branca && destino.linha == 0) || (p.cor == Cor.Preta && destino.linha == 7)){
                     p = p.tab.retirarPeca(destino);
@@ -200,7 +208,7 @@ namespace xadrez
                 mudaJogador();
             }
 
-            //en Passant            
+            //en Passant
             if (p is Peao && (destino.linha == origem.linha - 2 || destino.linha == origem.linha + 2)) {
                 pecaVulneravelEnPassant = p;
             }
@@ -208,7 +216,6 @@ namespace xadrez
             {
                 pecaVulneravelEnPassant = null;
             }
-
         }
 
         public void validarPosicaoDeOrigem(Posicao pos)

@@ -68,13 +68,11 @@ namespace JogoXadrez
 			this.btnExit = new System.Windows.Forms.Button();
 			this.btnReset = new System.Windows.Forms.Button();
 			this.moves = new System.Windows.Forms.GroupBox();
-			this.move2 = new System.Windows.Forms.Label();
-			this.move1 = new System.Windows.Forms.Label();
 			this.AtualPlayer = new System.Windows.Forms.Label();
 			this.CorJogadorAtual = new System.Windows.Forms.Label();
+			this.EmXeque = new System.Windows.Forms.Label();
 			this.tabuleiro.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).BeginInit();
-			this.moves.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tabuleiro
@@ -455,8 +453,6 @@ namespace JogoXadrez
 			// 
 			// moves
 			// 
-			this.moves.Controls.Add(this.move2);
-			this.moves.Controls.Add(this.move1);
 			this.moves.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
 			this.moves.Location = new System.Drawing.Point(620, 120);
 			this.moves.Name = "moves";
@@ -464,26 +460,6 @@ namespace JogoXadrez
 			this.moves.TabIndex = 4;
 			this.moves.TabStop = false;
 			this.moves.Text = "Movimentos";
-			// 
-			// move2
-			// 
-			this.move2.AutoSize = true;
-			this.move2.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.move2.Location = new System.Drawing.Point(85, 40);
-			this.move2.Name = "move2";
-			this.move2.Size = new System.Drawing.Size(43, 17);
-			this.move2.TabIndex = 6;
-			this.move2.Text = "b7-d8";
-			// 
-			// move1
-			// 
-			this.move1.AutoSize = true;
-			this.move1.Font = new System.Drawing.Font("Segoe UI", 10.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
-			this.move1.Location = new System.Drawing.Point(20, 39);
-			this.move1.Name = "move1";
-			this.move1.Size = new System.Drawing.Size(47, 19);
-			this.move1.TabIndex = 5;
-			this.move1.Text = "a7-a8";
 			// 
 			// AtualPlayer
 			// 
@@ -502,14 +478,27 @@ namespace JogoXadrez
 			this.CorJogadorAtual.ForeColor = System.Drawing.SystemColors.AppWorkspace;
 			this.CorJogadorAtual.Location = new System.Drawing.Point(620, 62);
 			this.CorJogadorAtual.Name = "CorJogadorAtual";
-			this.CorJogadorAtual.Size = new System.Drawing.Size(0, 21);
+			this.CorJogadorAtual.Size = new System.Drawing.Size(72, 21);
 			this.CorJogadorAtual.TabIndex = 7;
+			this.CorJogadorAtual.Text = "Jogador";
+			// 
+			// EmXeque
+			// 
+			this.EmXeque.AutoSize = true;
+			this.EmXeque.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point);
+			this.EmXeque.ForeColor = System.Drawing.Color.Red;
+			this.EmXeque.Location = new System.Drawing.Point(620, 90);
+			this.EmXeque.Name = "EmXeque";
+			this.EmXeque.Size = new System.Drawing.Size(95, 21);
+			this.EmXeque.TabIndex = 8;
+			this.EmXeque.Text = "EM XEQUE!";
 			// 
 			// TabuleiroGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(780, 761);
+			this.Controls.Add(this.EmXeque);
 			this.Controls.Add(this.CorJogadorAtual);
 			this.Controls.Add(this.AtualPlayer);
 			this.Controls.Add(this.moves);
@@ -523,8 +512,6 @@ namespace JogoXadrez
 			this.tabuleiro.ResumeLayout(false);
 			this.tabuleiro.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).EndInit();
-			this.moves.ResumeLayout(false);
-			this.moves.PerformLayout();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -537,8 +524,6 @@ namespace JogoXadrez
 		private System.Windows.Forms.Button btnExit;
 		private System.Windows.Forms.Button btnReset;
 		private System.Windows.Forms.GroupBox moves;
-		private System.Windows.Forms.Label move2;
-		private System.Windows.Forms.Label move1;
 		private System.Windows.Forms.PictureBox pictureBoard;
 		private System.Windows.Forms.Label label16;
 		private System.Windows.Forms.Label label15;
@@ -574,5 +559,6 @@ namespace JogoXadrez
 		private System.Windows.Forms.Label label17;
 		private System.Windows.Forms.Label AtualPlayer;
 		private System.Windows.Forms.Label CorJogadorAtual;
+		private System.Windows.Forms.Label EmXeque;
 	}
 }

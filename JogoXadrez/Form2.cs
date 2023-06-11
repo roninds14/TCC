@@ -38,6 +38,7 @@ namespace JogoXadrez
 		};
 		private IList<PicturePeca> PicturePeca;
 		private IList<PicturePosicao> PictureMove;
+		private IList<Label> HistoryLabel;
 		private Posicao Origem;
 		private PartidaDeXadrez Partida;
 
@@ -47,8 +48,11 @@ namespace JogoXadrez
 
 			PicturePeca = new List<PicturePeca>();
 			PictureMove = new List<PicturePosicao>();
+			HistoryLabel = new List<Label>();
 
 			Partida = new PartidaDeXadrez();
+
+			EmXeque.Visible = false;
 
 			SetPlayers(players, color);
 			FillBoard();
@@ -59,11 +63,15 @@ namespace JogoXadrez
 			ClearBoard();
 
 			CorJogadorAtual.Text = Partida.jogadorAtual.ToString();
+				
+			EmXeque.Visible = Partida.xeque;
 
 			foreach (Peca peca in Partida.tab.getPecas())
 			{
 				AddPeca(peca);
 			}
+
+			FillHistory();
 		}
 
 		private void SetPlayers(int players, int color)
@@ -81,6 +89,7 @@ namespace JogoXadrez
 		private void ClearBoard()
 		{
 			RemovePeca();
+			RemoveHistory();
 
 			foreach (PicturePosicao picturePosicao in PictureMove)
 			{
@@ -96,6 +105,14 @@ namespace JogoXadrez
 			foreach (PicturePeca picturePeca in PicturePeca)
 			{
 				picturePeca.pictureBox.Dispose();
+			}
+		}
+
+		private void RemoveHistory()
+		{
+			foreach (Label label in HistoryLabel)
+			{
+				label.Dispose();
 			}
 		}
 
@@ -149,6 +166,13 @@ namespace JogoXadrez
 					if(Partida.tab.existePeca(new Posicao(i,j)) && Partida.tab.peca(new Posicao(i, j)).cor != Partida.jogadorAtual)
 					{
 						newPicture.Image = GetImagegGray(Partida.tab.peca(new Posicao(i, j)));
+						newPicture.Height = 45;
+						newPicture.Width = 45;
+						newPicture.SizeMode = PictureBoxSizeMode.StretchImage;
+						newPicture.Location = new Point(
+							TranslatePosition[j],
+							TranslatePosition[i]
+						);
 					}
 
 					PictureMove.Add(new PicturePosicao(new Posicao(i, j), newPicture));
@@ -213,7 +237,6 @@ namespace JogoXadrez
 			return typeOfPeca;
 		}
 
-
 		private void PecaClick(object sender, EventArgs e)
 		{
 			if (!(Origem is null))
@@ -253,7 +276,7 @@ namespace JogoXadrez
 			}
 			catch (TabuleiroException exp)
 			{
-				MessageBox.Show(exp.Message, "Não é possivel realziar essa jogada!");
+				MessageBox.Show(exp.Message, "Não é possivel realizar essa jogada!");
 			}
 
 			Origem = null;
@@ -300,6 +323,31 @@ namespace JogoXadrez
 			if (dialog.Equals(DialogResult.Yes))
 			{
 				this.Close();
+			}
+		}
+	
+		private void FillHistory()
+		{
+			List<Historico> historico = new List<Historico>(Partida.historico);
+
+			for (int i = historico.Count - 1, j = 0; i >= 0 && j < 23; i--, j++)
+			{
+				Label newLabel = new Label();
+
+				newLabel.Text =
+					historico[i].turno.ToString() + " " +
+					historico[i].peca.ToString() + " " + 
+					historico[i].origem.ToStringTabuleiro() + "-" +
+					historico[i].destino.ToStringTabuleiro() + " " +
+					historico[i].pecaCapturada?.ToString();
+
+				newLabel.Location = new Point(32, 27 + j * 20);
+				newLabel.ForeColor = historico[i].peca.cor == Cor.Branca ?
+					Color.Gray : Color.Black;
+				newLabel.Font = new Font("Segoe UI", 10, FontStyle.Bold);
+
+				HistoryLabel.Add(newLabel);
+				moves.Controls.Add(newLabel);
 			}
 		}
 	}

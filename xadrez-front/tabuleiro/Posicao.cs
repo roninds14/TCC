@@ -30,5 +30,13 @@ namespace tabuleiro
         {
             return p1.linha == p2.linha && p1.coluna == p2.coluna;
         }
+
+        public string ToStringTabuleiro()
+		{
+            string linha = Math.Abs(this.linha - 8).ToString();
+            char coluna = (char)('a' + this.coluna);
+
+            return coluna + linha;
+		}
     }
 }
