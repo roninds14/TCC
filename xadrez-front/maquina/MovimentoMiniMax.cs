@@ -31,7 +31,7 @@ namespace maquina
 
         public static Boolean LessThen(MovimentoMiniMax atual, MovimentoMiniMax novo)
         {
-            return novo.valor < atual.valor;
+            return atual.valor < novo.valor;
         }
 
         public static Boolean GreatThen(MovimentoMiniMax atual, MovimentoMiniMax novo)

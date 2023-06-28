@@ -41,6 +41,11 @@ namespace tabuleiro
 
         public void colocarPeca(Peca p, Posicao pos)
         {
+            if(p is null)
+            {
+                return;
+			}
+
             if (existePeca(pos))
             {
                 throw new TabuleiroException("Já existe uma peça nessa posição");
