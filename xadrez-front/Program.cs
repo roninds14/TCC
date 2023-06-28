@@ -18,7 +18,7 @@ namespace xadrez_front
                     try
                     {
                         Console.Clear();
-                        Tela.imprimirPartida(partida);                        
+                        Tela.imprimirPartida(partida);
                     }
                     catch (TabuleiroException e)
                     {
