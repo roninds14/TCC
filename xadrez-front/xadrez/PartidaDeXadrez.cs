@@ -124,6 +124,17 @@ namespace xadrez
             return pecaCapturada;
         }
 
+        public Peca baseExecutaMovimento(Posicao origem, Posicao destino)
+        {
+            Peca p = tab.retirarPeca(origem);
+            p.incrementarQtdeMovimentos();
+            Peca pecaCapturada = tab.retirarPeca(destino);
+            tab.colocarPeca(p, destino);
+            if (pecaCapturada != null) capturadas.Add(pecaCapturada);
+
+            return pecaCapturada;
+        }
+
         public void desfazMovimento(Posicao origem, Posicao destino, Peca peca)
         {
             Peca p = tab.retirarPeca(destino);
@@ -171,6 +182,18 @@ namespace xadrez
             }
 
             historico.Remove(historico.Last());
+        }
+
+        public void baseDesfazMovimento(Posicao origem, Posicao destino, Peca peca)
+        {
+            Peca p = tab.retirarPeca(destino);
+            p?.decrementarQtdeMovimentos();
+            if (peca != null)
+            {
+                tab.colocarPeca(peca, destino);
+                capturadas.Remove(peca);
+            }
+            tab.colocarPeca(p, origem);
         }
 
         public void realizaJogada(Posicao origem, Posicao destino)
