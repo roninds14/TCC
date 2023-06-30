@@ -6,9 +6,11 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using xadrez;
+using maquina;
 using tabuleiro;
 using JogoXadrez.Classes;
 using System.Linq;
+using System.Threading;
 
 namespace JogoXadrez
 {
@@ -55,6 +57,7 @@ namespace JogoXadrez
 			Partida = new PartidaDeXadrez();
 
 			EmXeque.Visible = false;
+			loadPicture.Visible = false;
 
 			SetPlayers(players, color);
 			FillBoard();
@@ -293,8 +296,20 @@ namespace JogoXadrez
 
 			Origem = null;
 
-			ClearBoard();
+			if(!Partida.tipoJogador(Partida.jogadorAtual))
+			{
+				RealizaJogada jogada = new RealizaJogada(Partida, Partida.jogadorAtual);
 
+				loadPicture.Visible = true;
+
+				Thread.Sleep(100);
+
+				Partida.realizaJogada(jogada.origem, jogada.destino);
+			}
+
+			loadPicture.Visible = false;
+
+			ClearBoard();
 			FillBoard();
 		}
 

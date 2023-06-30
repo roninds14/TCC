@@ -21,7 +21,7 @@ namespace xadrez_front
                 int jogadores = int.Parse(Console.ReadLine());
 
                 if (jogadores < 0 || jogadores > 2)
-                    throw new TelaException("Número de jogadores deve ser entre 0 (zero) e 3 (três)!");
+                    throw new TelaException("Número de jogadores deve ser entre 0 (zero) e 2 (dois)!");
 
                 if(jogadores == 1)
                 {

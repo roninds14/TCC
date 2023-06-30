@@ -5,7 +5,7 @@ using xadrez;
 
 namespace maquina
 {
-    class RealizaJogada
+    public class RealizaJogada
     {
         private const int PROFUNDIDADE = 1;
 

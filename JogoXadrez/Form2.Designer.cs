@@ -71,12 +71,15 @@ namespace JogoXadrez
 			this.AtualPlayer = new System.Windows.Forms.Label();
 			this.CorJogadorAtual = new System.Windows.Forms.Label();
 			this.EmXeque = new System.Windows.Forms.Label();
+			this.loadPicture = new System.Windows.Forms.PictureBox();
 			this.tabuleiro.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.loadPicture)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabuleiro
 			// 
+			this.tabuleiro.Controls.Add(this.loadPicture);
 			this.tabuleiro.Controls.Add(this.label32);
 			this.tabuleiro.Controls.Add(this.label24);
 			this.tabuleiro.Controls.Add(this.label31);
@@ -493,6 +496,17 @@ namespace JogoXadrez
 			this.EmXeque.TabIndex = 8;
 			this.EmXeque.Text = "EM XEQUE!";
 			// 
+			// loadPicture
+			// 
+			this.loadPicture.BackColor = System.Drawing.SystemColors.ButtonShadow;
+			this.loadPicture.Image = global::JogoXadrez.Properties.Resources.load;
+			this.loadPicture.Location = new System.Drawing.Point(267, 267);
+			this.loadPicture.Name = "loadPicture";
+			this.loadPicture.Size = new System.Drawing.Size(70, 70);
+			this.loadPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.loadPicture.TabIndex = 3;
+			this.loadPicture.TabStop = false;
+			// 
 			// TabuleiroGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -512,6 +526,7 @@ namespace JogoXadrez
 			this.tabuleiro.ResumeLayout(false);
 			this.tabuleiro.PerformLayout();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.loadPicture)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -560,5 +575,6 @@ namespace JogoXadrez
 		private System.Windows.Forms.Label AtualPlayer;
 		private System.Windows.Forms.Label CorJogadorAtual;
 		private System.Windows.Forms.Label EmXeque;
+		private System.Windows.Forms.PictureBox loadPicture;
 	}
 }
