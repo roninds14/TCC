@@ -59,7 +59,28 @@ namespace JogoXadrez
 			EmXeque.Visible = false;
 			loadPicture.Visible = false;
 
+			this.Shown += MeuForm_Shown;
+
 			SetPlayers(players, color);
+
+			FillBoard();
+		}
+
+		private void MeuForm_Shown(object sender, EventArgs e)
+		{
+			BeginInvoke(new Action(On_Load));
+		}
+
+		private void On_Load()
+		{
+			Thread.Sleep(1000);
+
+			if (!Partida.tipoJogador(Partida.jogadorAtual))
+			{
+				RealizaJogadaMaquina();
+			}
+
+			ClearBoard();
 			FillBoard();
 		}
 
@@ -298,19 +319,24 @@ namespace JogoXadrez
 
 			if(!Partida.tipoJogador(Partida.jogadorAtual))
 			{
-				RealizaJogada jogada = new RealizaJogada(Partida, Partida.jogadorAtual);
-
-				loadPicture.Visible = true;
-
-				Thread.Sleep(100);
-
-				Partida.realizaJogada(jogada.origem, jogada.destino);
+				RealizaJogadaMaquina();
 			}
-
-			loadPicture.Visible = false;
 
 			ClearBoard();
 			FillBoard();
+		}
+
+		private void RealizaJogadaMaquina()
+		{
+			RealizaJogada jogada = new RealizaJogada(Partida, Partida.jogadorAtual);
+
+			loadPicture.Visible = true;
+
+			Thread.Sleep(1000);
+
+			Partida.realizaJogada(jogada.origem, jogada.destino);
+
+			loadPicture.Visible = false;
 		}
 
 		private Posicao GetPosicaoClicado(Control clickedObject)
