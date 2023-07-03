@@ -31,6 +31,7 @@ namespace JogoXadrez
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(TabuleiroGame));
 			this.tabuleiro = new System.Windows.Forms.GroupBox();
+			this.loadPicture = new System.Windows.Forms.PictureBox();
 			this.label32 = new System.Windows.Forms.Label();
 			this.label24 = new System.Windows.Forms.Label();
 			this.label31 = new System.Windows.Forms.Label();
@@ -71,10 +72,9 @@ namespace JogoXadrez
 			this.AtualPlayer = new System.Windows.Forms.Label();
 			this.CorJogadorAtual = new System.Windows.Forms.Label();
 			this.EmXeque = new System.Windows.Forms.Label();
-			this.loadPicture = new System.Windows.Forms.PictureBox();
 			this.tabuleiro.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.loadPicture)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// tabuleiro
@@ -120,6 +120,17 @@ namespace JogoXadrez
 			this.tabuleiro.TabIndex = 0;
 			this.tabuleiro.TabStop = false;
 			this.tabuleiro.Text = "Tabuleiro";
+			// 
+			// loadPicture
+			// 
+			this.loadPicture.BackColor = System.Drawing.SystemColors.ButtonShadow;
+			this.loadPicture.Image = global::JogoXadrez.Properties.Resources.load;
+			this.loadPicture.Location = new System.Drawing.Point(267, 267);
+			this.loadPicture.Name = "loadPicture";
+			this.loadPicture.Size = new System.Drawing.Size(70, 70);
+			this.loadPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.loadPicture.TabIndex = 3;
+			this.loadPicture.TabStop = false;
 			// 
 			// label32
 			// 
@@ -451,8 +462,9 @@ namespace JogoXadrez
 			this.btnReset.Name = "btnReset";
 			this.btnReset.Size = new System.Drawing.Size(155, 35);
 			this.btnReset.TabIndex = 3;
-			this.btnReset.Text = "Desfazer";
+			this.btnReset.Text = "Reiniciar";
 			this.btnReset.UseVisualStyleBackColor = false;
+			this.btnReset.Click += new System.EventHandler(this.btnReset_Click);
 			// 
 			// moves
 			// 
@@ -496,17 +508,6 @@ namespace JogoXadrez
 			this.EmXeque.TabIndex = 8;
 			this.EmXeque.Text = "EM XEQUE!";
 			// 
-			// loadPicture
-			// 
-			this.loadPicture.BackColor = System.Drawing.SystemColors.ButtonShadow;
-			this.loadPicture.Image = global::JogoXadrez.Properties.Resources.load;
-			this.loadPicture.Location = new System.Drawing.Point(267, 267);
-			this.loadPicture.Name = "loadPicture";
-			this.loadPicture.Size = new System.Drawing.Size(70, 70);
-			this.loadPicture.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-			this.loadPicture.TabIndex = 3;
-			this.loadPicture.TabStop = false;
-			// 
 			// TabuleiroGame
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -525,8 +526,8 @@ namespace JogoXadrez
 			this.Text = "Projeto TCC";
 			this.tabuleiro.ResumeLayout(false);
 			this.tabuleiro.PerformLayout();
-			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.loadPicture)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBoard)).EndInit();
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

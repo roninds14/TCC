@@ -44,11 +44,20 @@ namespace JogoXadrez
 		private IList<PictureBox> Capturadas;
 		private Posicao Origem;
 		private PartidaDeXadrez Partida;
+		private int players, color;
 
 		public TabuleiroGame(int players, int color)
 		{
 			InitializeComponent();
 
+			this.players = players;
+			this.color = color;
+
+			InitializeGame();
+		}
+
+		private void  InitializeGame()
+		{
 			PicturePeca = new List<PicturePeca>();
 			PictureMove = new List<PicturePosicao>();
 			HistoryLabel = new List<Label>();
@@ -434,6 +443,18 @@ namespace JogoXadrez
 
 				Capturadas.Add(newPicture);
 				capturadas.Controls.Add(newPicture);
+			}
+		}
+
+		private void btnReset_Click(object sender, EventArgs e)
+		{
+			DialogResult dialog = MessageBox.Show("Deseja reiniciar, seu processo será perdido?", "Reiniciar partida!", MessageBoxButtons.YesNo, MessageBoxIcon.Error);
+
+			if (dialog.Equals(DialogResult.Yes))
+			{
+				ClearBoard();
+
+				InitializeGame();
 			}
 		}
 	}
