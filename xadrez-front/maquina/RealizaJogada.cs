@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using tabuleiro;
 using xadrez;
 
@@ -36,7 +37,13 @@ namespace maquina
 
         private void RealizaMovimento()
         {
+            Stopwatch stopwatch = new Stopwatch();
+
+            stopwatch.Start();
             Posicao[] posicoes = MiniMax();
+            stopwatch.Stop();
+
+            Console.WriteLine("Elapsed Time is {0} ms", stopwatch.ElapsedMilliseconds);
 
             this.origem = posicoes[0];
             this.destino = posicoes[1];
